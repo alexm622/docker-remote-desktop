@@ -51,5 +51,15 @@ RUN sed -i -E 's/^; autospawn =.*/autospawn = yes/' /etc/pulse/client.conf \
 
 COPY --from=builder /usr/lib/pulse-*/modules/module-xrdp-sink.so /usr/lib/pulse-*/modules/module-xrdp-source.so /var/lib/xrdp-pulseaudio-installer/
 COPY entrypoint.sh /usr/bin/entrypoint
+#COPY sudo_1.9.1-1ubuntu1_amd64.deb .
 EXPOSE 3389/tcp
+RUN apt-get update
+RUN apt install apt-utils -y
+RUN apt install sudo wget man-db -y
+RUN printf "y\ny\n" | unminimize
+RUN apt install nano -y
+RUN apt install xserver-xorg-video-intel -y
+RUN apt install snapd -y
+#RUN snap install code
+#RUN dpkg -i sudo_1.9.1-1ubuntu1_amd64.deb
 ENTRYPOINT ["/usr/bin/entrypoint"]
